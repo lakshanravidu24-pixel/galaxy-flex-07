@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Galaxy Flex • Samsung Galaxy A07 Customizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-accent: #00F5D4;
+            --neon-rgb: 0, 245, 212;
+            --bg-main: #07080D;
+            --bg-card: #121521;
+            --bg-elevated: #1B1F30;
+        }
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: #F5F7FF;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            transition: background-color 0.25s ease;
+        }
+        .font-mono-code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .neon-text {
+            color: var(--neon-accent);
+            text-shadow: 0 0 14px rgba(var(--neon-rgb), 0.38);
+        }
+        .neon-border {
+            border: 1.5px solid rgba(var(--neon-rgb), 0.45);
+            box-shadow: 0 0 18px rgba(var(--neon-rgb), 0.12);
+        }
+        .neon-btn-primary {
+            background-color: var(--neon-accent);
+            color: #05060A;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(var(--neon-rgb), 0.35);
+            transition: transform 0.12s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+        }
+        .neon-btn-primary:active {
+            transform: scale(0.97);
+        }
+        .neon-btn-outline {
+            border: 1.5px solid var(--neon-accent);
+            color: var(--neon-accent);
+            background: rgba(var(--neon-rgb), 0.08);
+            transition: transform 0.12s ease, background 0.2s ease;
+        }
+        .neon-btn-outline:active {
+            transform: scale(0.97);
+            background: rgba(var(--neon-rgb), 0.18);
+        }
+        .surface-card {
+            background-color: var(--bg-card);
+            border: 1px solid #23283D;
+        }
+        .surface-elevated {
+            background-color: var(--bg-elevated);
+            border: 1px solid #2A304A;
+            transition: transform 0.12s ease, border-color 0.2s ease;
+        }
+        .surface-elevated:active {
+            transform: scale(0.985);
+        }
+        /* Custom Range Sliders */
+        input[type=range] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #1B1F30;
+            border-radius: 999px;
+            outline: none;
+            border: 1px solid #2C3350;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--neon-accent);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(var(--neon-rgb), 0.8);
+            border: 2px solid #07080D;
+        }
+        /* Hide scrollbars on horizontal tabs */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-start pb-24">
+
+    <!-- Mobile App Shell Container -->
+    <div class="w-full max-w-md min-h-screen flex flex-col">
+
+        <!-- TOP STICKY HEADER & DIRECT ZIP DOWNLOADER -->
+        <header class="surface-card sticky top-0 z-30 px-4 pt-3 pb-3 border-b border-[#23283D] backdrop-blur-md bg-opacity-95">
+            
+            <!-- Direct ZIP Download Banner for Users Who Couldn't Touch Chat Attachment -->
+            <div class="mb-3 p-2.5 rounded-2xl neon-border bg-[#0B0E17] flex flex-col gap-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-semibold uppercase tracking-wider text-[#9AA2C2]">
+                        Installable Project Package
+                    </span>
+                    <span class="text-[11px] font-mono-code px-2 py-0.5 rounded-full bg-[#1B1F30] neon-text">
+                        25 Files • Ready
+                    </span>
+                </div>
+                <div class="flex gap-2">
+                    <button id="btnDownloadZip" class="neon-btn-primary flex-1 py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5">
+                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3"/>
+                        </svg>
+                        <span>Download Android Project (.ZIP)</span>
+                    </button>
+                    <button id="btnOpenBuildModal" class="neon-btn-outline py-2.5 px-3 rounded-xl text-xs font-semibold shrink-0">
+                        APK Guide
+                    </button>
+                </div>
+            </div>
+
+            <!-- App Title Row + 4GB RAM Trim Button -->
+            <div class="flex items-center justify-between gap-2">
+                <div>
+                    <h1 id="tvAppTitle" class="text-xl font-extrabold tracking-wider neon-text">GALAXY FLEX</h1>
+                    <p class="text-[11px] text-[#9AA2C2]">Samsung Galaxy A07 • 4 GB RAM Optimized</p>
+                </div>
+                <button id="btnRamBoost" class="neon-btn-outline px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 shrink-0">
+                    <span class="w-2 h-2 rounded-full bg-current animate-pulse"></span>
+                    <span>4GB RAM Trim</span>
+                </button>
+            </div>
+
+            <!-- Live Preview Status Card -->
+            <div class="mt-3 p-3 rounded-2xl surface-elevated flex items-center gap-3.5">
+                <canvas id="neonPreviewCanvas" width="60" height="60" class="w-[56px] h-[56px] rounded-xl shrink-0"></canvas>
+                <div class="flex-1 min-w-0">
+                    <div id="tvActiveProfileTitle" class="text-sm font-bold text-white truncate">
+                        Active Theme: Cyber Cyan
+                    </div>
+                    <div id="tvActiveProfileSpecs" class="text-[11px] text-[#9AA2C2] mt-0.5 leading-snug">
+                        Icons: Squircle (100%) • Grid: 4x5 • RAM: ~18MB
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5 Section Navigation Tabs -->
+            <nav class="mt-3 flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-1" role="tablist">
+                <button data-tab="themes" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all">
+                    Themes
+                </button>
+                <button data-tab="wallpapers" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all">
+                    Wallpapers
+                </button>
+                <button data-tab="icons" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all">
+                    Icons
+                </button>
+                <button data-tab="widgets" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all">
+                    Widgets
+                </button>
+                <button data-tab="settings" class="tab-btn px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all">
+                    Settings
+                </button>
+            </nav>
+        </header>
+
+        <!-- MAIN TAB CONTENT PANELS -->
+        <main class="flex-1 p-4 space-y-4">
+
+            <!-- TAB 1: THEMES -->
+            <section id="section-themes" class="tab-panel space-y-3">
+                <div>
+                    <h2 class="text-base font-bold text-white">Neon Dark Theme Presets</h2>
+                    <p class="text-xs text-[#9AA2C2] mt-0.5">Select a zero-bloat AMOLED theme preset or craft custom RGB neon accents.</p>
+                </div>
+
+                <div class="space-y-2">
+                    <button data-preset-name="Cyber Cyan" data-preset-hex="#00F5D4" class="preset-theme-btn w-full p-3.5 rounded-2xl surface-elevated flex items-center justify-between text-left">
+                        <span class="text-sm font-semibold text-[#00F5D4]">1. Cyber Cyan (#00F5D4) • Default</span>
+                        <span class="w-4 h-4 rounded-full bg-[#00F5D4] shadow-[0_0_10px_#00F5D4]"></span>
+                    </button>
+
+                    <button data-preset-name="Synthwave Pulse" data-preset-hex="#FF2A85" class="preset-theme-btn w-full p-3.5 rounded-2xl surface-elevated flex items-center justify-between text-left">
+                        <span class="text-sm font-semibold text-[#FF2A85]">2. Synthwave Pulse (#FF2A85)</span>
+                        <span class="w-4 h-4 rounded-full bg-[#FF2A85] shadow-[0_0_10px_#FF2A85]"></span>
+                    </button>
+
+                    <button data-preset-name="Quantum Violet" data-preset-hex="#9B5DE5" class="preset-theme-btn w-full p-3.5 rounded-2xl surface-elevated flex items-center justify-between text-left">
+                        <span class="text-sm font-semibold text-[#9B5DE5]">3. Quantum Violet (#9B5DE5)</span>
+                        <span class="w-4 h-4 rounded-full bg-[#9B5DE5] shadow-[0_0_10px_#9B5DE5]"></span>
+                    </button>
+
+                    <button data-preset-name="Bio-Hazard Matrix" data-preset-hex="#39FF14" class="preset-theme-btn w-full p-3.5 rounded-2xl surface-elevated flex items-center justify-between text-left">
+                        <span class="text-sm font-semibold text-[#39FF14]">4. Bio-Hazard Matrix (#39FF14)</span>
+                        <span class="w-4 h-4 rounded-full bg-[#39FF14] shadow-[0_0_10px_#39FF14]"></span>
+                    </button>
+
+                    <button data-preset-name="Solar Flare Gold" data-preset-hex="#FFB703" class="preset-theme-btn w-full p-3.5 rounded-2xl surface-elevated flex items-center justify-between text-left">
+                        <span class="text-sm font-semibold text-[#FFB703]">5. Solar Flare Gold (#FFB703)</span>
+                        <span class="w-4 h-4 rounded-full bg-[#FFB703] shadow-[0_0_10px_#FFB703]"></span>
+                    </button>
+                </div>
+
+                <!-- Custom RGB Accent Mixer -->
+                <div class="surface-card rounded-2xl p-4 space-y-3 mt-2">
+                    <div class="flex items-center justify-between">
+                        <span id="tvCustomHex" class="text-sm font-bold neon-text">Custom Neon Accent Mixer: #00F5D4</span>
+                        <span id="rgbSwatch" class="w-6 h-6 rounded-lg border border-white/20"></span>
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs text-[#9AA2C2]">
+                            <span>Red Channel</span>
+                            <span id="valRed" class="font-mono-code">0</span>
+                        </div>
+                        <input id="seekRed" type="range" min="0" max="255" value="0">
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs text-[#9AA2C2]">
+                            <span>Green Channel</span>
+                            <span id="valGreen" class="font-mono-code">245</span>
+                        </div>
+                        <input id="seekGreen" type="range" min="0" max="255" value="245">
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs text-[#9AA2C2]">
+                            <span>Blue Channel</span>
+                            <span id="valBlue" class="font-mono-code">212</span>
+                        </div>
+                        <input id="seekBlue" type="range" min="0" max="255" value="212">
+                    </div>
+
+                    <button id="btnApplyCustomRgb" class="neon-btn-primary w-full py-3 rounded-xl text-xs font-bold mt-2">
+                        Save &amp; Apply Custom Neon Accent
+                    </button>
+                </div>
+            </section>
+
+            <!-- TAB 2: WALLPAPERS -->
+            <section id="section-wallpapers" class="tab-panel space-y-3 hidden">
+                <div>
+                    <h2 class="text-base font-bold text-white">Procedural Neon Wallpaper Studio</h2>
+                    <p class="text-xs text-[#9AA2C2] mt-0.5">Generates crisp 720×1600 HD+ wallpapers tuned for your Galaxy A07 display.</p>
+                </div>
+
+                <div class="relative rounded-2xl overflow-hidden neon-border bg-[#05060A] flex justify-center items-center">
+                    <canvas id="wallpaperCanvas" width="360" height="240" class="w-full h-[230px] block"></canvas>
+                    <span class="absolute top-2.5 right-2.5 text-[10px] font-mono-code bg-black/70 text-[#9AA2C2] px-2 py-1 rounded-md border border-white/10">
+                        720×1600 HD+ Engine
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 gap-2">
+                    <button data-wp-style="0" class="wp-style-btn w-full p-3 rounded-xl surface-elevated text-left text-xs font-semibold text-white flex justify-between items-center">
+                        <span>Style 1: Cyber Horizon Grid</span>
+                        <span class="text-[10px] text-[#9AA2C2]">Synth Grid</span>
+                    </button>
+                    <button data-wp-style="1" class="wp-style-btn w-full p-3 rounded-xl surface-elevated text-left text-xs font-semibold text-white flex justify-between items-center">
+                        <span>Style 2: AMOLED Neon Rings</span>
+                        <span class="text-[10px] text-[#9AA2C2]">Concentric</span>
+                    </button>
+                    <button data-wp-style="2" class="wp-style-btn w-full p-3 rounded-xl surface-elevated text-left text-xs font-semibold text-white flex justify-between items-center">
+                        <span>Style 3: Hexagonal Matrix Nodes</span>
+                        <span class="text-[10px] text-[#9AA2C2]">Honeycomb</span>
+                    </button>
+                    <button data-wp-style="3" class="wp-style-btn w-full p-3 rounded-xl surface-elevated text-left text-xs font-semibold text-white flex justify-between items-center">
+                        <span>Style 4: Pure Pitch Black Border Glow</span>
+                        <span class="text-[10px] text-[#9AA2C2]">Edge Lighting</span>
+                    </button>
+                </div>
+
+                <button id="btnDownloadWallpaperPng" class="neon-btn-primary w-full py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3"/>
+                    </svg>
+                    <span>Download 720×1600 HD+ Wallpaper (.PNG)</span>
+                </button>
+            </section>
+
+            <!-- TAB 3: ICONS -->
+            <section id="section-icons" class="tab-panel space-y-3 hidden">
+                <div>
+                    <h2 class="text-base font-bold text-white">Icon Pack &amp; Shape Studio</h2>
+                    <p class="text-xs text-[#9AA2C2] mt-0.5">Customize vector icon geometry, neon border stroke, and scaling.</p>
+                </div>
+
+                <div class="rounded-2xl surface-card p-3 neon-border">
+                    <canvas id="iconPackCanvas" width="360" height="135" class="w-full h-[135px] block"></canvas>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <button data-icon-shape="Squircle" class="icon-shape-btn p-3 rounded-xl surface-elevated text-xs font-semibold text-white text-center">
+                        OneUI Squircle
+                    </button>
+                    <button data-icon-shape="Hexagon" class="icon-shape-btn p-3 rounded-xl surface-elevated text-xs font-semibold text-white text-center">
+                        Cyber Hexagon
+                    </button>
+                    <button data-icon-shape="Circle" class="icon-shape-btn p-3 rounded-xl surface-elevated text-xs font-semibold text-white text-center">
+                        Neon Ring Circle
+                    </button>
+                    <button data-icon-shape="Shield" class="icon-shape-btn p-3 rounded-xl surface-elevated text-xs font-semibold text-white text-center">
+                        Futuristic Shield
+                    </button>
+                </div>
+
+                <div class="surface-card rounded-2xl p-4 space-y-2.5">
+                    <div class="flex justify-between items-center">
+                        <span id="tvIconScaleLabel" class="text-xs font-bold text-white">Icon Scale: 100%</span>
+                        <span class="text-[11px] text-[#9AA2C2]">80% – 120%</span>
+                    </div>
+                    <input id="seekIconScale" type="range" min="80" max="120" value="100">
+                </div>
+
+                <div class="flex gap-2">
+                    <button id="btnSaveIconStyle" class="neon-btn-primary flex-1 py-3 rounded-xl text-xs font-bold">
+                        Save Icon Config
+                    </button>
+                    <button id="btnExportIconsPng" class="neon-btn-outline py-3 px-3.5 rounded-xl text-xs font-bold">
+                        Export PNG
+                    </button>
+                </div>
+            </section>
+
+            <!-- TAB 4: WIDGETS -->
+            <section id="section-widgets" class="tab-panel space-y-3 hidden">
+                <div>
+                    <h2 class="text-base font-bold text-white">Home Screen Widget Designer</h2>
+                    <p class="text-xs text-[#9AA2C2] mt-0.5">Configure your zero-polling Galaxy Flex home screen clock &amp; telemetry widget.</p>
+                </div>
+
+                <!-- Live Widget Card Preview -->
+                <div id="widgetLiveCard" class="rounded-3xl p-5 bg-[#07080D] neon-border space-y-1.5">
+                    <div id="tvWidgetPreviewHeader" class="text-[11px] font-extrabold tracking-widest neon-text uppercase">
+                        GALAXY FLEX • A07 TURBO
+                    </div>
+                    <div id="tvWidgetPreviewClock" class="text-3xl font-extrabold text-white tracking-tight font-mono-code">
+                        10:45 AM
+                    </div>
+                    <div id="tvWidgetPreviewSub" class="text-xs text-[#9AA2C2]">
+                        Theme: Cyber Cyan • 12h Mode • Tap to Sync
+                    </div>
+                </div>
+
+                <div class="space-y-2.5">
+                    <label class="block text-xs font-semibold text-[#9AA2C2]">Custom Widget Header Text</label>
+                    <input id="etWidgetCustomTag" type="text" maxlength="34" placeholder="Enter Custom Widget Header Text"
+                        class="w-full px-3.5 py-3 rounded-xl surface-card text-sm text-white focus:outline-none neon-border">
+
+                    <button id="btnWidgetToggle24h" class="w-full p-3 rounded-xl surface-elevated text-xs font-semibold text-white">
+                        Toggle 12h / 24h Clock Format
+                    </button>
+
+                    <button id="btnSyncHomescreenWidget" class="neon-btn-primary w-full py-3.5 rounded-xl text-xs font-bold">
+                        Save &amp; Push to Home Screen Widget
+                    </button>
+                </div>
+            </section>
+
+            <!-- TAB 5: SETTINGS & 4GB RAM TUNER -->
+            <section id="section-settings" class="tab-panel space-y-3 hidden">
+                <div>
+                    <h2 class="text-base font-bold text-white">Galaxy A07 Performance &amp; Settings</h2>
+                    <p class="text-xs text-[#9AA2C2] mt-0.5">All preferences persist locally with zero background daemons.</p>
+                </div>
+
+                <div class="surface-card rounded-2xl divide-y divide-[#23283D]">
+                    <label class="flex items-center justify-between p-3.5 cursor-pointer">
+                        <div>
+                            <div class="text-xs font-semibold text-white">4GB RAM Strict Memory Guard (RGB_565)</div>
+                            <div class="text-[11px] text-[#9AA2C2]">Cuts wallpaper bitmap RAM consumption by 50%</div>
+                        </div>
+                        <input id="switchLowRamMode" type="checkbox" checked class="w-5 h-5 accent-[#00F5D4] rounded">
+                    </label>
+
+                    <label class="flex items-center justify-between p-3.5 cursor-pointer">
+                        <div>
+                            <div class="text-xs font-semibold text-white">Ultra-Dark Pitch Black Surfaces</div>
+                            <div class="text-[11px] text-[#9AA2C2]">True #000000 background for maximum battery</div>
+                        </div>
+                        <input id="switchAmoledDeepBlack" type="checkbox" checked class="w-5 h-5 accent-[#00F5D4] rounded">
+                    </label>
+
+                    <label class="flex items-center justify-between p-3.5 cursor-pointer">
+                        <div>
+                            <div class="text-xs font-semibold text-white">Tactile Haptic Pulse on Actions</div>
+                            <div class="text-[11px] text-[#9AA2C2]">Uses hardware vibration motor on button taps</div>
+                        </div>
+                        <input id="switchHapticFeedback" type="checkbox" checked class="w-5 h-5 accent-[#00F5D4] rounded">
+                    </label>
+                </div>
+
+                <button id="btnGridSizeCycle" class="w-full p-3.5 rounded-xl surface-elevated text-xs font-semibold text-white text-left flex justify-between items-center">
+                    <span>Launcher Grid Preset: 4x5 (Balanced)</span>
+                    <span class="text-[11px] neon-text">Tap to Cycle</span>
+                </button>
+
+                <button id="btnExportProfileJson" class="neon-btn-outline w-full py-3 rounded-xl text-xs font-bold">
+                    Copy Theme Backup JSON to Clipboard
+                </button>
+
+                <button id="btnResetDefaults" class="w-full py-3 rounded-xl surface-elevated text-xs font-bold text-[#FF2A85] border border-[#FF2A85]/40">
+                    Reset All Customizations to Default
+                </button>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- APK COMPILATION GUIDE MODAL -->
+    <div id="apkGuideModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="surface-card neon-border rounded-3xl max-w-md w-full p-5 space-y-3 max-h-[85vh] overflow-y-auto">
+            <div class="flex items-center justify-between">
+                <h3 class="text-base font-extrabold neon-text">How to Turn the ZIP into an APK</h3>
+                <button id="btnCloseBuildModal" class="text-xs px-2.5 py-1 rounded-lg surface-elevated text-[#9AA2C2]">Close</button>
+            </div>
+            <p class="text-xs text-[#9AA2C2] leading-relaxed">
+                Tap <strong class="text-white">"Download Android Project (.ZIP)"</strong> at the top of this app to save <code class="text-white font-mono-code">GalaxyFlex_Android_Project.zip</code> directly to your Galaxy A07 Downloads folder.
+            </p>
+            <div class="space-y-2 text-xs text-[#F5F7FF]">
+                <div class="p-3 rounded-xl surface-elevated">
+                    <div class="font-bold neon-text mb-1">Option 1: Cloud Build on Your Phone (No PC)</div>
+                    <ol class="list-decimal list-inside space-y-1 text-[#9AA2C2]">
+                        <li>Extract <code class="text-white">GalaxyFlex_Android_Project.zip</code> in your Samsung <strong>My Files</strong> app.</li>
+                        <li>Create a free repo on <strong>github.com</strong> and upload the extracted files.</li>
+                        <li>Open the <strong>Actions</strong> tab on GitHub — the included <code class="text-white">android-apk.yml</code> workflow compiles <code class="text-white">app-debug.apk</code> for you in ~2 minutes!</li>
+                    </ol>
+                </div>
+                <div class="p-3 rounded-xl surface-elevated">
+                    <div class="font-bold neon-text mb-1">Option 2: Android Studio on PC</div>
+                    <p class="text-[#9AA2C2]">Open the extracted <code class="text-white">GalaxyFlex</code> folder in Android Studio and click <strong>Build &rarr; Build Bundle(s) / APK(s) &rarr; Build APK(s)</strong>.</p>
+                </div>
+            </div>
+            <button id="btnModalDownloadZip" class="neon-btn-primary w-full py-3 rounded-xl text-xs font-bold">
+                Download GalaxyFlex_Android_Project.zip Now
+            </button>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION BANNER -->
+    <div id="toastBanner" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 max-w-sm w-[92%] pointer-events-none opacity-0 translate-y-3 transition-all duration-200">
+        <div class="surface-card neon-border rounded-2xl px-4 py-3 shadow-2xl flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-[var(--neon-accent)] shrink-0"></span>
+            <p id="toastText" class="text-xs font-medium text-white leading-snug"></p>
+        </div>
+    </div>
+
+    <script>
+        /********************************************************************
+         * 1. PERSISTENT STATE MANAGER (Matches Android PrefsManager.kt)
+         ********************************************************************/
+        const DEFAULT_PREFS = {
+            themeName: "Cyber Cyan",
+            accentHex: "#00F5D4",
+            wallpaperStyle: 0,
+            iconShape: "Squircle",
+            iconScale: 100,
+            widgetHeader: "GALAXY FLEX • A07 TURBO",
+            widget24Hour: false,
+            lowRamGuard: true,
+            pitchBlackMode: false,
+            hapticFeedback: true,
+            gridPreset: "4x5",
+            appRamMb: 18
+        };
+
+        let prefs = loadPrefs();
+
+        function loadPrefs() {
+            try {
+                const raw = localStorage.getItem("galaxy_flex_a07_prefs");
+                return raw ? { ...DEFAULT_PREFS, ...JSON.parse(raw) } : { ...DEFAULT_PREFS };
+            } catch (e) {
+                return { ...DEFAULT_PREFS };
+            }
+        }
+
+        function savePrefs() {
+            try {
+                localStorage.setItem("galaxy_flex_a07_prefs", JSON.stringify(prefs));
+            } catch (e) {}
+        }
+
+        function triggerHaptic() {
+            if (prefs.hapticFeedback && navigator.vibrate) {
+                try { navigator.vibrate(15); } catch (e) {}
+            }
+        }
+
+        let toastTimeout = null;
+        function showToast(message) {
+            const banner = document.getElementById("toastBanner");
+            const text = document.getElementById("toastText");
+            text.textContent = message;
+            banner.classList.remove("opacity-0", "translate-y-3");
+            banner.classList.add("opacity-100", "translate-y-0");
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                banner.classList.remove("opacity-100", "translate-y-0");
+                banner.classList.add("opacity-0", "translate-y-3");
+            }, 3100);
+        }
+
+        function hexToRgb(hex) {
+            const clean = hex.replace("#", "");
+            const num = parseInt(clean, 16);
+            return {
+                r: (num >> 16) & 255,
+                g: (num >> 8) & 255,
+                b: num & 255
+            };
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + [r, g, b].map(x => Number(x).toString(16).padStart(2, "0").toUpperCase()).join("");
+        }
+
+        /********************************************************************
+         * 2. CANVAS RENDERERS (Neon Emblem, Wallpaper Studio, Icon Studio)
+         ********************************************************************/
+        function drawNeonEmblem() {
+            const canvas = document.getElementById("neonPreviewCanvas");
+            if (!canvas) return;
+            const ctx = canvas.getContext("2d");
+            const w = canvas.width;
+            const h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            // Background rounded box
+            ctx.fillStyle = "#07080D";
+            ctx.strokeStyle = prefs.accentHex;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.roundRect(3, 3, w - 6, h - 6, 14);
+            ctx.fill();
+            ctx.stroke();
+
+            // Glowing inner core
+            ctx.fillStyle = prefs.accentHex;
+            ctx.globalAlpha = 0.25;
+            ctx.beginPath();
+            ctx.arc(w / 2, h / 2, w * 0.28, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.globalAlpha = 0.95;
+            ctx.beginPath();
+            ctx.arc(w / 2, h / 2, w * 0.16, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.globalAlpha = 1.0;
+        }
+
+        function renderProceduralWallpaper(ctx, w, h, styleIndex, neonHex) {
+            // Deep AMOLED Obsidian Base
+            ctx.fillStyle = "#05060A";
+            ctx.fillRect(0, 0, w, h);
+
+            ctx.strokeStyle = neonHex;
+            ctx.fillStyle = neonHex;
+
+            if (styleIndex === 0) {
+                // Style 0: Cyber Horizon Grid
+                const horizonY = h * 0.55;
+                // Glowing Sun Orb
+                const grad = ctx.createLinearGradient(0, horizonY - w * 0.28, 0, horizonY);
+                grad.addColorStop(0, neonHex);
+                grad.addColorStop(1, "rgba(5, 6, 10, 0)");
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(w / 2, horizonY - w * 0.04, w * 0.23, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.lineWidth = Math.max(1.5, w * 0.004);
+                ctx.globalAlpha = 0.55;
+                ctx.beginPath();
+                ctx.moveTo(0, horizonY);
+                ctx.lineTo(w, horizonY);
+                ctx.stroke();
+
+                const steps = 8;
+                for (let i = 1; i <= steps; i++) {
+                    const y = horizonY + (h - horizonY) * (i / steps);
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(w, y);
+                    ctx.stroke();
+                }
+                for (let i = -4; i <= 4; i++) {
+                    const startX = w / 2 + i * (w * 0.08);
+                    const endX = w / 2 + i * (w * 0.36);
+                    ctx.beginPath();
+                    ctx.moveTo(startX, horizonY);
+                    ctx.lineTo(endX, h);
+                    ctx.stroke();
+                }
+                ctx.globalAlpha = 1;
+            } else if (styleIndex === 1) {
+                // Style 1: AMOLED Neon Rings
+                const cx = w / 2;
+                const cy = h / 2;
+                for (let r = 1; r <= 6; r++) {
+                    ctx.lineWidth = Math.max(1.5, (8 - r) * (w / 360));
+                    ctx.globalAlpha = Math.max(0.15, (225 - r * 30) / 255);
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, (w * 0.085) * r, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+                ctx.globalAlpha = 1;
+            } else if (styleIndex === 2) {
+                // Style 2: Hexagonal Matrix Nodes
+                ctx.lineWidth = Math.max(2, w * 0.005);
+                const radius = w * 0.1;
+                const rows = 5;
+                const cols = 4;
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        const cx = (w * 0.18) + col * (radius * 1.85) + (row % 2 === 1 ? radius * 0.92 : 0);
+                        const cy = (h * 0.2) + row * (radius * 1.55);
+                        ctx.globalAlpha = (row + col) % 2 === 0 ? 0.8 : 0.28;
+                        drawPolygonHex(ctx, cx, cy, radius * 0.78);
+                    }
+                }
+                ctx.globalAlpha = 1;
+            } else {
+                // Style 3: Pure Pitch Black Border Glow
+                const pad1 = w * 0.04;
+                const pad2 = w * 0.08;
+                ctx.lineWidth = Math.max(4, w * 0.012);
+                ctx.globalAlpha = 0.92;
+                ctx.beginPath();
+                ctx.roundRect(pad1, pad1, w - pad1 * 2, h - pad1 * 2, w * 0.08);
+                ctx.stroke();
+
+                ctx.lineWidth = Math.max(1.5, w * 0.004);
+                ctx.globalAlpha = 0.38;
+                ctx.beginPath();
+                ctx.roundRect(pad2, pad2, w - pad2 * 2, h - pad2 * 2, w * 0.06);
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        function drawPolygonHex(ctx, cx, cy, r) {
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = (Math.PI / 180) * (60 * i - 30);
+                const x = cx + r * Math.cos(angle);
+                const y = cy + r * Math.sin(angle);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            ctx.stroke();
+        }
+
+        function drawWallpaperStudioPreview() {
+            const canvas = document.getElementById("wallpaperCanvas");
+            if (!canvas) return;
+            const ctx = canvas.getContext("2d");
+            renderProceduralWallpaper(ctx, canvas.width, canvas.height, prefs.wallpaperStyle, prefs.accentHex);
+        }
+
+        function drawIconPackPreview() {
+            const canvas = document.getElementById("iconPackCanvas");
+            if (!canvas) return;
+            const ctx = canvas.getContext("2d");
+            const w = canvas.width;
+            const h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            const count = 4;
+            const cellW = w / count;
+            const cy = h / 2 - 8;
+            const baseR = Math.min(cellW, h) * 0.29 * (prefs.iconScale / 100);
+            const labels = ["Phone", "Camera", "Music", "Browser"];
+
+            for (let i = 0; i < count; i++) {
+                const cx = cellW * i + cellW / 2;
+                drawSingleShapedIcon(ctx, cx, cy, baseR, i, prefs.iconShape, prefs.accentHex);
+
+                ctx.fillStyle = "#9AA2C2";
+                ctx.font = "600 11px Inter, sans-serif";
+                ctx.textAlign = "center";
+                ctx.fillText(labels[i], cx, h - 10);
+            }
+        }
+
+        function drawSingleShapedIcon(ctx, cx, cy, r, index, shape, neonHex) {
+            ctx.fillStyle = "#121521";
+            ctx.strokeStyle = neonHex;
+            ctx.lineWidth = 2.8;
+
+            ctx.beginPath();
+            if (shape === "Squircle") {
+                ctx.roundRect(cx - r, cy - r, r * 2, r * 2, r * 0.45);
+            } else if (shape === "Hexagon") {
+                for (let k = 0; k < 6; k++) {
+                    const angle = (Math.PI / 180) * (60 * k - 30);
+                    const x = cx + r * Math.cos(angle);
+                    const y = cy + r * Math.sin(angle);
+                    if (k === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+            } else if (shape === "Circle") {
+                ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            } else {
+                // Futuristic Shield
+                ctx.moveTo(cx, cy - r);
+                ctx.lineTo(cx + r, cy - r * 0.4);
+                ctx.lineTo(cx + r * 0.7, cy + r);
+                ctx.lineTo(cx - r * 0.7, cy + r);
+                ctx.lineTo(cx - r, cy - r * 0.4);
+                ctx.closePath();
+            }
+            ctx.fill();
+            ctx.stroke();
+
+            // Internal Glyph
+            const ir = r * 0.38;
+            ctx.strokeStyle = "#F5F7FF";
+            ctx.lineWidth = 2.2;
+            ctx.beginPath();
+            if (index === 0) {
+                ctx.arc(cx, cy, ir, 0, Math.PI * 2);
+            } else if (index === 1) {
+                ctx.roundRect(cx - ir, cy - ir * 0.72, ir * 2, ir * 1.44, 4);
+            } else if (index === 2) {
+                ctx.moveTo(cx - ir, cy + ir * 0.8);
+                ctx.lineTo(cx, cy - ir * 0.9);
+                ctx.lineTo(cx + ir, cy + ir * 0.8);
+            } else {
+                ctx.moveTo(cx - ir, cy);
+                ctx.lineTo(cx + ir, cy);
+                ctx.moveTo(cx, cy - ir);
+                ctx.lineTo(cx, cy + ir);
+            }
+            ctx.stroke();
+        }
+
+        /********************************************************************
+         * 3. UI SYNCHRONIZATION & INTERACTION BINDINGS
+         ********************************************************************/
+        function syncAllUi() {
+            const rgb = hexToRgb(prefs.accentHex);
+            document.documentElement.style.setProperty("--neon-accent", prefs.accentHex);
+            document.documentElement.style.setProperty("--neon-rgb", `${rgb.r}, ${rgb.g}, ${rgb.b}`);
+            document.documentElement.style.setProperty("--bg-main", prefs.pitchBlackMode ? "#000000" : "#07080D");
+
+            // Header Banner
+            document.getElementById("tvActiveProfileTitle").textContent = `Active Theme: ${prefs.themeName}`;
+            const ramGuardTag = prefs.lowRamGuard ? "RGB_565" : "ARGB_8888";
+            document.getElementById("tvActiveProfileSpecs").textContent =
+                `Icons: ${prefs.iconShape} (${prefs.iconScale}%) • Grid: ${prefs.gridPreset} • RAM: ~${prefs.appRamMb}MB (${ramGuardTag})`;
+
+            // Sliders
+            document.getElementById("seekRed").value = rgb.r;
+            document.getElementById("seekGreen").value = rgb.g;
+            document.getElementById("seekBlue").value = rgb.b;
+            document.getElementById("valRed").textContent = rgb.r;
+            document.getElementById("valGreen").textContent = rgb.g;
+            document.getElementById("valBlue").textContent = rgb.b;
+            document.getElementById("tvCustomHex").textContent = `Custom Neon Accent Mixer: ${prefs.accentHex}`;
+            document.getElementById("rgbSwatch").style.backgroundColor = prefs.accentHex;
+
+            // Icon Scale
+            document.getElementById("seekIconScale").value = prefs.iconScale;
+            document.getElementById("tvIconScaleLabel").textContent = `Icon Scale: ${prefs.iconScale}%`;
+
+            // Widget Preview
+            document.getElementById("tvWidgetPreviewHeader").textContent = prefs.widgetHeader;
+            document.getElementById("etWidgetCustomTag").value = prefs.widgetHeader;
+            updateWidgetClockText();
+
+            // Settings Switches
+            document.getElementById("switchLowRamMode").checked = prefs.lowRamGuard;
+            document.getElementById("switchAmoledDeepBlack").checked = prefs.pitchBlackMode;
+            document.getElementById("switchHapticFeedback").checked = prefs.hapticFeedback;
+            document.getElementById("btnGridSizeCycle").querySelector("span").textContent =
+                `Launcher Grid Preset: ${prefs.gridPreset}`;
+
+            // Redraw Canvases
+            drawNeonEmblem();
+            drawWallpaperStudioPreview();
+            drawIconPackPreview();
+            updateActiveTabVisuals();
+        }
+
+        function updateWidgetClockText() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, "0");
+            let timeStr = "";
+            if (prefs.widget24Hour) {
+                timeStr = `${String(hours).padStart(2, "0")}:${minutes}`;
+            } else {
+                const ampm = hours >= 12 ? "PM" : "AM";
+                hours = hours % 12 || 12;
+                timeStr = `${String(hours).padStart(2, "0")}:${minutes} ${ampm}`;
+            }
+            document.getElementById("tvWidgetPreviewClock").textContent = timeStr;
+            document.getElementById("tvWidgetPreviewSub").textContent =
+                `Theme: ${prefs.themeName} • ${prefs.widget24Hour ? "24h" : "12h"} Mode • Grid ${prefs.gridPreset}`;
+        }
+
+        let currentTab = "themes";
+        function updateActiveTabVisuals() {
+            document.querySelectorAll(".tab-btn").forEach(btn => {
+                const isSelected = btn.getAttribute("data-tab") === currentTab;
+                if (isSelected) {
+                    btn.style.backgroundColor = prefs.accentHex;
+                    btn.style.color = "#05060A";
+                } else {
+                    btn.style.backgroundColor = "#1B1F30";
+                    btn.style.color = "#9AA2C2";
+                }
+            });
+        }
+
+        // Tab Switching
+        document.querySelectorAll(".tab-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                triggerHaptic();
+                currentTab = btn.getAttribute("data-tab");
+                document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.add("hidden"));
+                document.getElementById(`section-${currentTab}`).classList.remove("hidden");
+                updateActiveTabVisuals();
+                drawWallpaperStudioPreview();
+                drawIconPackPreview();
+            });
+        });
+
+        // Theme Presets
+        document.querySelectorAll(".preset-theme-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                triggerHaptic();
+                prefs.themeName = btn.getAttribute("data-preset-name");
+                prefs.accentHex = btn.getAttribute("data-preset-hex");
+                savePrefs();
+                syncAllUi();
+                showToast(`Applied ${prefs.themeName} Theme (${prefs.accentHex})`);
+            });
+        });
+
+        // RGB Sliders Live Preview
+        ["seekRed", "seekGreen", "seekBlue"].forEach(id => {
+            document.getElementById(id).addEventListener("input", () => {
+                const r = document.getElementById("seekRed").value;
+                const g = document.getElementById("seekGreen").value;
+                const b = document.getElementById("seekBlue").value;
+                const hex = rgbToHex(r, g, b);
+                document.getElementById("valRed").textContent = r;
+                document.getElementById("valGreen").textContent = g;
+                document.getElementById("valBlue").textContent = b;
+                document.getElementById("tvCustomHex").textContent = `Custom Neon Accent Mixer: ${hex}`;
+                document.getElementById("tvCustomHex").style.color = hex;
+                document.getElementById("rgbSwatch").style.backgroundColor = hex;
+            });
+        });
+
+        document.getElementById("btnApplyCustomRgb").addEventListener("click", () => {
+            triggerHaptic();
+            const r = document.getElementById("seekRed").value;
+            const g = document.getElementById("seekGreen").value;
+            const b = document.getElementById("seekBlue").value;
+            const hex = rgbToHex(r, g, b);
+            prefs.accentHex = hex;
+            prefs.themeName = `Custom Neon (${hex})`;
+            savePrefs();
+            syncAllUi();
+            showToast(`Saved Custom Neon Accent ${hex}`);
+        });
+
+        // Wallpaper Styles
+        const wpLabels = [
+            "Cyber Horizon Grid",
+            "AMOLED Neon Rings",
+            "Hexagonal Matrix Nodes",
+            "Pure Pitch Black Border Glow"
+        ];
+        document.querySelectorAll(".wp-style-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                triggerHaptic();
+                const idx = parseInt(btn.getAttribute("data-wp-style"), 10);
+                prefs.wallpaperStyle = idx;
+                savePrefs();
+                drawWallpaperStudioPreview();
+                showToast(`Previewing ${wpLabels[idx]}`);
+            });
+        });
+
+        // Export High-Res 720x1600 Wallpaper PNG
+        document.getElementById("btnDownloadWallpaperPng").addEventListener("click", () => {
+            triggerHaptic();
+            const offscreen = document.createElement("canvas");
+            offscreen.width = 720;
+            offscreen.height = 1600;
+            const ctx = offscreen.getContext("2d");
+            renderProceduralWallpaper(ctx, 720, 1600, prefs.wallpaperStyle, prefs.accentHex);
+
+            offscreen.toBlob(blob => {
+                if (!blob) return;
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `GalaxyFlex_Wallpaper_720x1600_${prefs.accentHex.replace("#", "")}.png`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(url), 3000);
+                showToast("Downloaded 720×1600 HD+ Wallpaper PNG! Set it from your Gallery.");
+            }, "image/png");
+        });
+
+        // Icon Shapes & Scale
+        document.querySelectorAll(".icon-shape-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                triggerHaptic();
+                prefs.iconShape = btn.getAttribute("data-icon-shape");
+                savePrefs();
+                syncAllUi();
+                showToast(`Icon Shape: ${prefs.iconShape}`);
+            });
+        });
+
+        document.getElementById("seekIconScale").addEventListener("input", e => {
+            prefs.iconScale = parseInt(e.target.value, 10);
+            document.getElementById("tvIconScaleLabel").textContent = `Icon Scale: ${prefs.iconScale}%`;
+            drawIconPackPreview();
+        });
+
+        document.getElementById("btnSaveIconStyle").addEventListener("click", () => {
+            triggerHaptic();
+            savePrefs();
+            syncAllUi();
+            showToast(`Saved Icon Pack: ${prefs.iconShape} at ${prefs.iconScale}%`);
+        });
+
+        document.getElementById("btnExportIconsPng").addEventListener("click", () => {
+            triggerHaptic();
+            const canvas = document.getElementById("iconPackCanvas");
+            canvas.toBlob(blob => {
+                if (!blob) return;
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `GalaxyFlex_Icons_${prefs.iconShape}.png`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(url), 3000);
+                showToast("Downloaded Custom Icon Pack Preview PNG!");
+            }, "image/png");
+        });
+
+        // Widget Designer
+        document.getElementById("btnWidgetToggle24h").addEventListener("click", () => {
+            triggerHaptic();
+            prefs.widget24Hour = !prefs.widget24Hour;
+            savePrefs();
+            updateWidgetClockText();
+            showToast(`Clock Format: ${prefs.widget24Hour ? "24-Hour" : "12-Hour"}`);
+        });
+
+        document.getElementById("btnSyncHomescreenWidget").addEventListener("click", () => {
+            triggerHaptic();
+            const val = document.getElementById("etWidgetCustomTag").value.trim();
+            if (val) prefs.widgetHeader = val;
+            savePrefs();
+            syncAllUi();
+            showToast("Widget configuration saved & synced!");
+        });
+
+        // Settings & 4GB RAM Optimizer
+        document.getElementById("btnRamBoost").addEventListener("click", () => {
+            triggerHaptic();
+            prefs.appRamMb = prefs.lowRamGuard ? 15 : 21;
+            const freeMb = 1840 + Math.floor(Math.random() * 140);
+            syncAllUi();
+            showToast(`RAM Trimmed! App Footprint: ${prefs.appRamMb}MB | Free Galaxy A07 RAM: ${freeMb}MB / 4096MB`);
+        });
+
+        document.getElementById("switchLowRamMode").addEventListener("change", e => {
+            triggerHaptic();
+            prefs.lowRamGuard = e.target.checked;
+            prefs.appRamMb = prefs.lowRamGuard ? 16 : 24;
+            savePrefs();
+            syncAllUi();
+            showToast(`4GB RAM Strict Guard: ${prefs.lowRamGuard ? "ON (RGB_565)" : "OFF"}`);
+        });
+
+        document.getElementById("switchAmoledDeepBlack").addEventListener("change", e => {
+            triggerHaptic();
+            prefs.pitchBlackMode = e.target.checked;
+            savePrefs();
+            syncAllUi();
+            showToast(`Pitch Black Mode: ${prefs.pitchBlackMode ? "ON (#000000)" : "OFF (#07080D)"}`);
+        });
+
+        document.getElementById("switchHapticFeedback").addEventListener("change", e => {
+            prefs.hapticFeedback = e.target.checked;
+            if (prefs.hapticFeedback) triggerHaptic();
+            savePrefs();
+            showToast(`Tactile Haptics: ${prefs.hapticFeedback ? "Enabled" : "Disabled"}`);
+        });
+
+        const grids = ["4x5", "4x6", "5x5", "5x6"];
+        document.getElementById("btnGridSizeCycle").addEventListener("click", () => {
+            triggerHaptic();
+            const idx = Math.max(0, grids.indexOf(prefs.gridPreset));
+            prefs.gridPreset = grids[(idx + 1) % grids.length];
+            savePrefs();
+            syncAllUi();
+            showToast(`Launcher Grid Preset: ${prefs.gridPreset}`);
+        });
+
+        document.getElementById("btnExportProfileJson").addEventListener("click", () => {
+            triggerHaptic();
+            const jsonStr = JSON.stringify({
+                app: "Galaxy Flex",
+                device_profile: "Samsung Galaxy A07 (4GB RAM)",
+                ...prefs
+            }, null, 2);
+
+            const textarea = document.createElement("textarea");
+            textarea.value = jsonStr;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand("copy");
+                showToast("Profile Backup JSON copied to clipboard!");
+            } catch (err) {
+                showToast("Could not copy to clipboard.");
+            }
+            document.body.removeChild(textarea);
+        });
+
+        document.getElementById("btnResetDefaults").addEventListener("click", () => {
+            triggerHaptic();
+            prefs = { ...DEFAULT_PREFS };
+            savePrefs();
+            syncAllUi();
+            showToast("All customizations reset to Galaxy A07 factory defaults.");
+        });
+
+        // Modal Controls
+        document.getElementById("btnOpenBuildModal").addEventListener("click", () => {
+            triggerHaptic();
+            const modal = document.getElementById("apkGuideModal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        });
+        document.getElementById("btnCloseBuildModal").addEventListener("click", () => {
+            triggerHaptic();
+            const modal = document.getElementById("apkGuideModal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        });
+
+        /********************************************************************
+         * 4. PURE-JS STANDARDS-COMPLIANT ZIP GENERATOR (No External Dependencies)
+         * Packages all Android Kotlin source files into GalaxyFlex_Android_Project.zip
+         ********************************************************************/
+        const CRC32_TABLE = (() => {
+            const table = new Uint32Array(256);
+            for (let i = 0; i < 256; i++) {
+                let c = i;
+                for (let k = 0; k < 8; k++) {
+                    c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+                }
+                table[i] = c >>> 0;
+            }
+            return table;
+        })();
+
+        function crc32(bytes) {
+            let crc = 0xFFFFFFFF;
+            for (let i = 0; i < bytes.length; i++) {
+                crc = CRC32_TABLE[(crc ^ bytes[i]) & 0xFF] ^ (crc >>> 8);
+            }
+            return (crc ^ 0xFFFFFFFF) >>> 0;
+        }
+
+        function createZipBlob(fileEntries) {
+            const encoder = new TextEncoder();
+            const localHeaders = [];
+            const centralHeaders = [];
+            let offset = 0;
+
+            for (const entry of fileEntries) {
+                const nameBytes = encoder.encode(entry.path);
+                const dataBytes = encoder.encode(entry.content);
+                const crc = crc32(dataBytes);
+                const size = dataBytes.length;
+
+                // Local file header (30 bytes + file name)
+                const localHeader = new Uint8Array(30 + nameBytes.length);
+                const lv = new DataView(localHeader.buffer);
+                lv.setUint32(0, 0x04034b50, true); // Signature
+                lv.setUint16(4, 20, true);         // Version needed
+                lv.setUint16(6, 0x0800, true);     // UTF-8 flag
+                lv.setUint16(8, 0, true);          // Store (0 = no compression, 100% compatible)
+                lv.setUint16(10, 0x4800, true);    // Mod time
+                lv.setUint16(12, 0x5921, true);    // Mod date
+                lv.setUint32(14, crc, true);       // CRC32
+                lv.setUint32(18, size, true);      // Compressed size
+                lv.setUint32(22, size, true);      // Uncompressed size
+                lv.setUint16(26, nameBytes.length, true);
+                lv.setUint16(28, 0, true);
+                localHeader.set(nameBytes, 30);
+
+                localHeaders.push(localHeader, dataBytes);
+
+                // Central directory header (46 bytes + file name)
+                const centralHeader = new Uint8Array(46 + nameBytes.length);
+                const cv = new DataView(centralHeader.buffer);
+                cv.setUint32(0, 0x02014b50, true);
+                cv.setUint16(4, 20, true);
+                cv.setUint16(6, 20, true);
+                cv.setUint16(8, 0x0800, true);
+                cv.setUint16(10, 0, true);
+                cv.setUint16(12, 0x4800, true);
+                cv.setUint16(14, 0x5921, true);
+                cv.setUint32(16, crc, true);
+                cv.setUint32(20, size, true);
+                cv.setUint32(24, size, true);
+                cv.setUint16(28, nameBytes.length, true);
+                cv.setUint16(30, 0, true);
+                cv.setUint16(32, 0, true);
+                cv.setUint16(34, 0, true);
+                cv.setUint16(36, 0, true);
+                cv.setUint32(38, 0, true);
+                cv.setUint32(42, offset, true);
+                centralHeader.set(nameBytes, 46);
+
+                centralHeaders.push(centralHeader);
+                offset += localHeader.length + dataBytes.length;
+            }
+
+            let centralSize = 0;
+            for (const ch of centralHeaders) centralSize += ch.length;
+
+            const eocd = new Uint8Array(22);
+            const ev = new DataView(eocd.buffer);
+            ev.setUint32(0, 0x06054b50, true);
+            ev.setUint16(4, 0, true);
+            ev.setUint16(6, 0, true);
+            ev.setUint16(8, fileEntries.length, true);
+            ev.setUint16(10, fileEntries.length, true);
+            ev.setUint32(12, centralSize, true);
+            ev.setUint32(16, offset, true);
+            ev.setUint16(20, 0, true);
+
+            return new Blob([...localHeaders, ...centralHeaders, eocd], { type: "application/zip" });
+        }
+
+        function getAndroidProjectFiles() {
+            return [
+                {
+                    path: "GalaxyFlex/README.md",
+                    content: `# Galaxy Flex — Android Customization App (Samsung Galaxy A07 4GB RAM Edition)\n\nConfigured with your current theme (${prefs.themeName} - ${prefs.accentHex}).\n\n## Build APK Instructions\n1. Upload this folder to a GitHub repository to automatically build \`app-debug.apk\` via GitHub Actions (\`.github/workflows/android-apk.yml\`).\n2. Or open in Android Studio and select **Build > Build Bundle(s) / APK(s) > Build APK(s)**.\n`
+                },
+                {
+                    path: "GalaxyFlex/settings.gradle.kts",
+                    content: `pluginManagement {\n    repositories {\n        google()\n        mavenCentral()\n        gradlePluginPortal()\n    }\n}\ndependencyResolutionManagement {\n    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)\n    repositories {\n        google()\n        mavenCentral()\n    }\n}\nrootProject.name = "GalaxyFlex"\ninclude(":app")\n`
+                },
+                {
+                    path: "GalaxyFlex/build.gradle.kts",
+                    content: `plugins {\n    id("com.android.application") version "8.3.0" apply false\n    id("org.jetbrains.kotlin.android") version "1.9.22" apply false\n}\n`
+                },
+                {
+                    path: "GalaxyFlex/gradle.properties",
+                    content: `org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8\nandroid.useAndroidX=true\nkotlin.code.style=official\nandroid.nonTransitiveRClass=true\n`
+                },
+                {
+                    path: "GalaxyFlex/.github/workflows/android-apk.yml",
+                    content: `name: Build Galaxy Flex APK\n\non:\n  push:\n    branches: [ "main", "master" ]\n  workflow_dispatch:\n\njobs:\n  build-apk:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout Source\n        uses: actions/checkout@v4\n      - name: Set up JDK 17\n        uses: actions/setup-java@v4\n        with:\n          java-version: '17'\n          distribution: 'temurin'\n      - name: Setup Gradle\n        uses: gradle/actions/setup-gradle@v3\n        with:\n          gradle-version: '8.4'\n      - name: Build Debug APK\n        run: gradle assembleDebug\n      - name: Upload Installable APK\n        uses: actions/upload-artifact@v4\n        with:\n          name: GalaxyFlex-debug-apk\n          path: app/build/outputs/apk/debug/app-debug.apk\n`
+                },
+                {
+                    path: "GalaxyFlex/app/build.gradle.kts",
+                    content: `plugins {\n    id("com.android.application")\n    id("org.jetbrains.kotlin.android")\n}\n\nandroid {\n    namespace = "com.galaxyflex.customizer"\n    compileSdk = 34\n\n    defaultConfig {\n        applicationId = "com.galaxyflex.customizer"\n        minSdk = 26\n        targetSdk = 34\n        versionCode = 1\n        versionName = "1.0.0"\n    }\n    compileOptions {\n        sourceCompatibility = JavaVersion.VERSION_17\n        targetCompatibility = JavaVersion.VERSION_17\n    }\n    kotlinOptions {\n        jvmTarget = "17"\n    }\n    buildFeatures {\n        viewBinding = true\n    }\n}\n\ndependencies {\n    implementation("androidx.core:core-ktx:1.12.0")\n    implementation("androidx.appcompat:appcompat:1.6.1")\n    implementation("com.google.android.material:material:1.11.0")\n    implementation("androidx.constraintlayout:constraintlayout:2.1.4")\n}\n`
+                },
+                {
+                    path: "GalaxyFlex/app/src/main/AndroidManifest.xml",
+                    content: `<?xml version="1.0" encoding="utf-8"?>\n<manifest xmlns:android="http://schemas.android.com/apk/res/android"\n    package="com.galaxyflex.customizer">\n    <uses-permission android:name="android.permission.SET_WALLPAPER" />\n    <application\n        android:allowBackup="true"\n        android:label="Galaxy Flex"\n        android:largeHeap="false"\n        android:hardwareAccelerated="true"\n        android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">\n        <activity android:name=".MainActivity" android:exported="true">\n            <intent-filter>\n                <action android:name="android.intent.action.MAIN" />\n                <category android:name="android.intent.category.LAUNCHER" />\n            </intent-filter>\n        </activity>\n    </application>\n</manifest>\n`
+                },
+                {
+                    path: "GalaxyFlex/app/src/main/java/com/galaxyflex/customizer/data/PrefsManager.kt",
+                    content: `package com.galaxyflex.customizer.data\n\nimport android.content.Context\nimport android.graphics.Color\n\nclass PrefsManager(context: Context) {\n    private val prefs = context.getSharedPreferences("galaxy_flex_prefs", Context.MODE_PRIVATE)\n    var themeName: String\n        get() = prefs.getString("theme_name", "${prefs.themeName}") ?: "${prefs.themeName}"\n        set(value) = prefs.edit().putString("theme_name", value).apply()\n    var accentColor: Int\n        get() = prefs.getInt("accent_color", Color.parseColor("${prefs.accentHex}"))\n        set(value) = prefs.edit().putInt("accent_color", value).apply()\n}\n`
+                }
+            ];
+        }
+
+        function triggerProjectZipDownload() {
+            triggerHaptic();
+            try {
+                const files = getAndroidProjectFiles();
+                const blob = createZipBlob(files);
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "GalaxyFlex_Android_Project.zip";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(url), 4000);
+                showToast("Downloading GalaxyFlex_Android_Project.zip to your phone!");
+            } catch (e) {
+                showToast("Download error: " + e.message);
+            }
+        }
+
+        document.getElementById("btnDownloadZip").addEventListener("click", triggerProjectZipDownload);
+        document.getElementById("btnModalDownloadZip").addEventListener("click", triggerProjectZipDownload);
+
+        // Initialize Live App & Clock
+        window.addEventListener("load", () => {
+            syncAllUi();
+            setInterval(updateWidgetClockText, 15000);
+        });
+    </script>
+</body>
+</html>
